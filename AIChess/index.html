@@ -11,6 +11,7 @@
 </head>
 <body>
     <div class="container">
+        <h1>Advanced Chess AI</h1>
         <div id="board" class="board"></div>
         <div class="controls">
             <button id="startBtn" class="btn">Start Game</button>
@@ -21,6 +22,15 @@
         <div class="settings">
             <label for="depth">AI Depth: </label>
             <input type="number" id="depth" name="depth" min="1" max="6" value="3">
+        </div>
+        <div class="settings">
+            <label for="theme">Board Theme: </label>
+            <select id="theme" name="theme">
+                <option value="default">Default</option>
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+                <option value="dark">Dark</option>
+            </select>
         </div>
         <table id="move-history" class="history">
             <thead>

@@ -18,6 +18,14 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1s ease-in-out;
+}
+
 .board {
     margin-bottom: 20px;
 }
@@ -41,11 +49,12 @@ body {
     cursor: pointer;
     border: none;
     border-radius: 4px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 .btn:hover {
     background-color: #45a049;
+    transform: scale(1.05);
 }
 
 .history {
@@ -75,6 +84,7 @@ body {
     display: table;
     width: 100%;
     table-layout: fixed;
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 .settings {
@@ -88,11 +98,48 @@ body {
     font-size: 16px;
 }
 
-.settings input {
-    width: 60px;
+.settings input,
+.settings select {
+    width: 100px;
     padding: 5px;
     font-size: 16px;
     text-align: center;
     border: 1px solid #ddd;
     border-radius: 4px;
+}
+
+.green .white-1e1d7,
+.green .black-3c85d {
+    background: #c2f0c2;
+}
+
+.blue .white-1e1d7,
+.blue .black-3c85d {
+    background: #c2d4f0;
+}
+
+.dark .white-1e1d7,
+.dark .black-3c85d {
+    background: #3d3d3d;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.board .highlight1-32417 {
+    background: radial-gradient(circle, #fffc00 36%, transparent 40%);
+}
+
+.board .highlight2-9c5d2 {
+    background: radial-gradient(circle, #ff0000 36%, transparent 40%);
+}
+
+.board .highlight3-5d37e {
+    background: radial-gradient(circle, #0000ff 36%, transparent 40%);
 }

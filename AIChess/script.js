@@ -1,6 +1,9 @@
 var board = null;
 var game = new Chess();
 var depth = 3;
+var $status = $('#status');
+var $fen = $('#fen');
+var $pgn = $('#pgn');
 
 function onDragStart(source, piece, position, orientation) {
     if (game.in_checkmate() || game.in_draw() || piece.search(/^b/) !== -1) {
@@ -13,6 +16,7 @@ function makeBestMove() {
     game.move(bestMove);
     board.position(game.fen());
     renderMoveHistory(game.history());
+    updateStatus();
     if (game.game_over()) {
         alert('Game over');
     }
@@ -72,22 +76,30 @@ document.getElementById('startBtn').addEventListener('click', function() {
     game.reset();
     board.start();
     document.getElementById('move-history').getElementsByTagName('tbody')[0].innerHTML = '';
+    updateStatus();
 });
 
 document.getElementById('undoBtn').addEventListener('click', function() {
     game.undo();
     board.position(game.fen());
     renderMoveHistory(game.history());
+    updateStatus();
 });
 
 document.getElementById('aiMoveBtn').addEventListener('click', function() {
     makeBestMove();
+    updateStatus();
 });
 
 document.getElementById('resetBtn').addEventListener('click', function() {
     game.reset();
     board.start();
     document.getElementById('move-history').getElementsByTagName('tbody')[0].innerHTML = '';
+    updateStatus();
+});
+
+document.getElementById('theme').addEventListener('change', function() {
+    document.body.className = this.value;
 });
 
 function minimaxRoot(depth, game, isMaximizingPlayer) {
@@ -172,3 +184,30 @@ function getPieceValue(piece) {
     var absoluteValue = getAbsoluteValue(piece, piece.color === 'w');
     return piece.color === 'w' ? absoluteValue : -absoluteValue;
 }
+
+function updateStatus() {
+    var status = '';
+
+    var moveColor = 'White';
+    if (game.turn() === 'b') {
+        moveColor = 'Black';
+    }
+
+    if (game.in_checkmate()) {
+        status = 'Game over, ' + moveColor + ' is in checkmate.';
+    } else if (game.in_draw()) {
+        status = 'Game over, drawn position';
+    } else {
+        status = moveColor + ' to move';
+
+        if (game.in_check()) {
+            status += ', ' + moveColor + ' is in check';
+        }
+    }
+
+    $status.html(status);
+    $fen.html(game.fen());
+    $pgn.html(game.pgn());
+}
+
+updateStatus();
