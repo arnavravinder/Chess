@@ -1,9 +1,6 @@
 var board = null;
 var game = new Chess();
 var depth = 3;
-var $status = $('#status');
-var $fen = $('#fen');
-var $pgn = $('#pgn');
 
 function onDragStart(source, piece, position, orientation) {
     if (game.in_checkmate() || game.in_draw() || piece.search(/^b/) !== -1) {
@@ -101,6 +98,61 @@ document.getElementById('resetBtn').addEventListener('click', function() {
 document.getElementById('theme').addEventListener('change', function() {
     document.body.className = this.value;
 });
+
+// Firebase configuration
+var firebaseConfig = {
+    apiKey: "", //enter your api key!
+    authDomain: "your-project-id.firebaseapp.com",
+    databaseURL: "https://your-project-id.firebaseio.com",
+    projectId: "your-project-id",
+    storageBucket: "your-project-id.appspot.com",
+    messagingSenderId: "your-messaging-sender-id",
+    appId: "your-app-id"
+};
+firebase.initializeApp(firebaseConfig);
+var database = firebase.database();
+
+document.getElementById('send-btn').addEventListener('click', function() {
+    sendMessage();
+});
+
+document.getElementById('message-input').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        sendMessage();
+    }
+});
+
+function sendMessage() {
+    var messageInput = document.getElementById('message-input');
+    var message = messageInput.value;
+    if (message.trim() !== '') {
+        var newMessageRef = database.ref('messages').push();
+        newMessageRef.set({
+            text: message,
+            timestamp: Date.now()
+        });
+        messageInput.value = '';
+    }
+}
+
+database.ref('messages').on('child_added', function(snapshot) {
+    var message = snapshot.val();
+    displayMessage(message.text);
+});
+
+function displayMessage(text) {
+    var chatMessages = document.getElementById('chat-messages');
+    var messageElement = document.createElement('div');
+    messageElement.classList.add('message');
+    messageElement.innerHTML = `
+        <img src="profile2.jpg" alt="Profile">
+        <div class="message-content">
+            <p>${text}</p>
+        </div>
+    `;
+    chatMessages.appendChild(messageElement);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
 
 function minimaxRoot(depth, game, isMaximizingPlayer) {
     var newGameMoves = game.ugly_moves();
@@ -205,9 +257,9 @@ function updateStatus() {
         }
     }
 
-    $status.html(status);
-    $fen.html(game.fen());
-    $pgn.html(game.pgn());
+    document.getElementById('status').innerText = status;
+    document.getElementById('fen').innerText = game.fen();
+    document.getElementById('pgn').innerText = game.pgn();
 }
 
 updateStatus();

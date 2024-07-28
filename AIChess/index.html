@@ -8,39 +8,47 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.11.0/chess.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css">
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Advanced Chess AI</h1>
-        <div id="board" class="board"></div>
-        <div class="controls">
-            <button id="startBtn" class="btn">Start Game</button>
-            <button id="undoBtn" class="btn">Undo Move</button>
-            <button id="aiMoveBtn" class="btn">AI Move</button>
-            <button id="resetBtn" class="btn">Reset Game</button>
+        <div class="sidebar">
+            <div class="profile">
+                <img src="profile1.jpg" alt="Profile">
+                <h2>User Name</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Learn</a></li>
+                    <li><a href="#">Play</a></li>
+                    <li><a href="#">Watch</a></li>
+                </ul>
+            </nav>
+            <div class="settings">
+                <button class="btn">Settings</button>
+            </div>
         </div>
-        <div class="settings">
-            <label for="depth">AI Depth: </label>
-            <input type="number" id="depth" name="depth" min="1" max="6" value="3">
+        <div class="main-content">
+            <div class="chess-container">
+                <div class="timer top-timer">00:00</div>
+                <div id="board" class="board"></div>
+                <div class="timer bottom-timer">09:52</div>
+            </div>
+            <div class="chat-container">
+                <div class="chat-header">
+                    <img src="profile2.jpg" alt="Profile">
+                    <h2>Chat</h2>
+                </div>
+                <div class="chat-messages" id="chat-messages">
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="message-input" placeholder="Type your message...">
+                    <button class="btn" id="send-btn">Send</button>
+                </div>
+            </div>
         </div>
-        <div class="settings">
-            <label for="theme">Board Theme: </label>
-            <select id="theme" name="theme">
-                <option value="default">Default</option>
-                <option value="green">Green</option>
-                <option value="blue">Blue</option>
-                <option value="dark">Dark</option>
-            </select>
-        </div>
-        <table id="move-history" class="history">
-            <thead>
-                <tr>
-                    <th>White</th>
-                    <th>Black</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
     </div>
     <script src="script.js"></script>
 </body>
