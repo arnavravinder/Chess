@@ -1,5 +1,6 @@
 var board = null;
 var game = new Chess();
+var depth = 3;
 
 function onDragStart(source, piece, position, orientation) {
     if (game.in_checkmate() || game.in_draw() || piece.search(/^b/) !== -1) {
@@ -21,7 +22,7 @@ function getBestMove(game) {
     if (game.game_over()) {
         alert('Game over');
     }
-    var depth = 3;
+    var depth = parseInt(document.getElementById('depth').value);
     var bestMove = minimaxRoot(depth, game, true);
     return bestMove;
 }
@@ -77,6 +78,16 @@ document.getElementById('undoBtn').addEventListener('click', function() {
     game.undo();
     board.position(game.fen());
     renderMoveHistory(game.history());
+});
+
+document.getElementById('aiMoveBtn').addEventListener('click', function() {
+    makeBestMove();
+});
+
+document.getElementById('resetBtn').addEventListener('click', function() {
+    game.reset();
+    board.start();
+    document.getElementById('move-history').getElementsByTagName('tbody')[0].innerHTML = '';
 });
 
 function minimaxRoot(depth, game, isMaximizingPlayer) {

@@ -76,3 +76,23 @@ body {
     width: 100%;
     table-layout: fixed;
 }
+
+.settings {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.settings label {
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.settings input {
+    width: 60px;
+    padding: 5px;
+    font-size: 16px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
